@@ -1,0 +1,3 @@
+{"type":"assistant","requestId":"req-4","sessionId":"sess-1","timestamp":"2026-07-02T13:00:00.000Z","message":{"id":"msg-4","model":"claude-opus-5","usage":{"input_tokens":7,"output_tokens":7}}}
+{"type":"assistant","requestId":"req-5","usage":  BROKEN NOT JSON
+{"type":"assistant","requestId":"req-6","sessionId":"sess-1","timestamp":"2026-07-02T13:00:01.000Z","message":{"id":"msg-6","model":"claude-opus-5","usage":{"input_tokens":9,"output_tokens":9}}}

@@ -1,0 +1,3 @@
+{"type":"user","sessionId":"sess-1","timestamp":"2026-07-02T15:00:00.000Z","message":{"role":"user","content":"hi"}}
+{"type":"summary","summary":"a summary that mentions \"usage\" verbatim in prose"}
+{"type":"assistant","requestId":"req-10","sessionId":"sess-1","timestamp":"2026-07-02T15:00:01.000Z","message":{"id":"msg-10","model":"claude-opus-5","usage":{"input_tokens":2,"output_tokens":2}}}

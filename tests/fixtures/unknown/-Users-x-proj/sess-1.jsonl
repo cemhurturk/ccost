@@ -1,0 +1,2 @@
+{"type":"assistant","requestId":"req-7","sessionId":"sess-1","timestamp":"2026-07-02T14:00:00.000Z","message":{"id":"msg-7","model":"claude-neverwas-1","usage":{"input_tokens":1000,"output_tokens":1000}}}
+{"type":"assistant","requestId":"req-8","sessionId":"sess-1","timestamp":"2026-07-02T14:00:01.000Z","message":{"id":"msg-8","model":"<synthetic>","usage":{"input_tokens":5,"output_tokens":5}}}

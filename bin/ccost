@@ -1,0 +1,72 @@
+#!/usr/bin/env bash
+#
+# ccost launcher. Runs the ccost package from any working directory, so the
+# tool can be symlinked onto PATH without an install step or a virtualenv.
+#
+# Deliberately does not cd into the repo: relative paths the caller types
+# (--root tests/fixtures/dupes) must keep resolving against the caller's cwd.
+
+set -euo pipefail
+
+usage() {
+	cat <<'EOF'
+ccost - reconstruct the API-equivalent cost of past Claude Code sessions.
+
+Usage:
+    ccost [options]
+
+Install (once):
+    ln -s /path/to/ccost/bin/ccost /usr/local/bin/ccost
+
+Examples:
+    ccost                       monthly breakdown
+    ccost --by project          per-project
+    ccost --since 2026-06       recent months only
+    ccost --json                machine-readable
+
+Environment:
+    CCOST_PYTHON    interpreter to use (default: python3, needs 3.9+)
+
+The full option list follows, straight from the tool itself.
+EOF
+}
+
+die() {
+	usage >&2
+	printf '\nerror: %s\n' "$1" >&2
+	exit 1
+}
+
+# Resolve this script's real path, following symlinks by hand: BSD readlink
+# has no -f, so the coreutils one-liner is not portable to macOS.
+src=${BASH_SOURCE[0]}
+while [ -L "$src" ]; do
+	dir=$(cd -P "$(dirname "$src")" && pwd)
+	src=$(readlink "$src")
+	case $src in
+	/*) ;;
+	*) src=$dir/$src ;;
+	esac
+done
+repo_root=$(cd -P "$(dirname "$src")/.." && pwd)
+
+python=${CCOST_PYTHON:-python3}
+
+command -v "$python" >/dev/null 2>&1 ||
+	die "$python not found. Set CCOST_PYTHON to a Python 3.9+ interpreter."
+
+"$python" -c 'import sys; sys.exit(0 if sys.version_info >= (3, 9) else 1)' 2>/dev/null ||
+	die "$python is not a working Python 3.9+ interpreter."
+
+export PYTHONPATH="$repo_root${PYTHONPATH:+:$PYTHONPATH}"
+
+# argparse owns the authoritative flag list; print the wrapper's own notes
+# above it rather than duplicating (and eventually contradicting) it.
+case ${1-} in
+-h | --help)
+	usage
+	echo
+	;;
+esac
+
+exec "$python" -m ccost "$@"
