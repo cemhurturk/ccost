@@ -35,7 +35,7 @@ class TestBucketing(unittest.TestCase):
 
     def test_groups_by_project_using_display_name(self):
         result = aggregate.aggregate(
-            [rec(project="-Users-cemhurturk-Development-ccost", out=10)],
+            [rec(project="-Users-x-Development-ccost", out=10)],
             by="project",
         )
         self.assertEqual(result.buckets[0].key, "Development-ccost")

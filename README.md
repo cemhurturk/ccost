@@ -8,6 +8,29 @@ shows is discarded when a session ends. On a subscription plan real spend is
 fixed, so the number here is notional: what the same usage would have cost at
 API list prices. Compared against a monthly plan price, that is a value check.
 
+```
+Claude Code usage — API-equivalent cost
+812 transcripts · 23 projects · scanned in 3.1s
+
+MONTH     INPUT     OUTPUT    CACHE-R    CACHE-W   API-EQUIV    PLAN   MULTIPLE
+2026-06    1.8M       6.2M     310.4M      28.1M   $1,204.66    $200       6.0x
+2026-07*   0.9M       4.1M     205.7M      15.3M     $811.34    $200       4.1x
+                                                   ─────────
+TOTAL                                              $2,016.00    $400       5.0x
+
+* partial month
+```
+
+(Figures illustrative.)
+
+## Install
+
+Clone and run — there is nothing to install:
+
+    git clone https://github.com/cemhurturk/ccost.git
+    cd ccost
+    python3 -m ccost
+
 ## Usage
 
     python3 -m ccost                      # monthly breakdown
@@ -46,7 +69,7 @@ The one subtlety worth knowing: **a single API response is written to the
 transcript as several lines** — one per content block (thinking, text, each
 tool call) — and every one of those lines repeats the same cumulative `usage`.
 Summing lines therefore overcounts badly; measured against a real corpus of
-103,452 rows, the inflation factor is **2.31×**. `ccost` deduplicates on
+roughly 100k rows, the inflation factor was about **2.3×**. `ccost` deduplicates on
 `(message.id, requestId)` and counts each response once.
 
 Subagent transcripts (`<session>/subagents/agent-*.jsonl`) are included and
@@ -68,3 +91,7 @@ share of real spend.
   that tier, which may differ from what they resolved to when written.
 - Months are bucketed in local time, not UTC.
 - This tool only reads. It never writes to `~/.claude/`.
+
+## License
+
+MIT — see [LICENSE](LICENSE).

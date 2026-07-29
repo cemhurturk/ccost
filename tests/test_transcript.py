@@ -34,7 +34,7 @@ class TestAttribution(unittest.TestCase):
 
     def test_display_project_strips_user_prefix(self):
         self.assertEqual(
-            transcript.display_project("-Users-cemhurturk-Development-ccost"),
+            transcript.display_project("-Users-x-Development-ccost"),
             "Development-ccost",
         )
 

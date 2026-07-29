@@ -51,8 +51,8 @@ seems to need a third-party package, it doesn't.
 content block (thinking, text, each tool_use) — and every one of those lines repeats
 the same cumulative `usage` block.**
 
-Summing lines overcounts. Measured against a real 103,452-row corpus, the inflation
-factor is **2.31×**. `transcript.scan()` deduplicates on `f"{message.id}|{requestId}"`,
+Summing lines overcounts. Measured against a real ~100k-row corpus, the inflation
+factor was about **2.3×**. `transcript.scan()` deduplicates on `f"{message.id}|{requestId}"`,
 first occurrence wins, applied globally across all files (a resumed or forked session
 repeats a message in a second file).
 

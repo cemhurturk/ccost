@@ -30,9 +30,9 @@ or anything that writes to the transcript directory.
     <session-id>/subagents/agent-<id>.jsonl     ← one per subagent, isSidechain: true
 ```
 
-Current scale: **70 project dirs, ~1,721 transcripts, 1.4 GB**, spanning 2026-01 to 2026-07.
-1,157 of those files are subagent transcripts. (The file count drifts upward during any
-working session — the count above was taken while this spec was being written.)
+Scale of the tree this was designed against: on the order of **dozens of project dirs,
+a couple thousand transcripts, ~1.5 GB**, spanning several months. Roughly two-thirds of
+the files are subagent transcripts. (Any working session drifts these counts upward.)
 
 Every assistant entry carries:
 
@@ -198,17 +198,17 @@ deliberately conservative choice.
 
 ## 7. Output
 
-Default (`--by month`):
+Default (`--by month`), figures illustrative:
 
 ```
 Claude Code usage — API-equivalent cost
-1,721 transcripts · 70 projects · scanned in 7.2s
+812 transcripts · 23 projects · scanned in 3.1s
 
 MONTH     INPUT     OUTPUT    CACHE-R    CACHE-W   API-EQUIV    PLAN   MULTIPLE
-2026-06    2.1M       9.8M     501.3M      44.6M   $3,782.55    $200      18.9x
-2026-07*   1.2M       8.4M     412.5M      38.2M   $3,140.22    $200      15.7x
+2026-06    1.8M       6.2M     310.4M      28.1M   $1,204.66    $200       6.0x
+2026-07*   0.9M       4.1M     205.7M      15.3M     $811.34    $200       4.1x
                                                    ─────────
-TOTAL                                              $6,922.77    $400      17.3x
+TOTAL                                              $2,016.00    $400       5.0x
 
 Unpriced (tokens counted, dollars excluded):
   claude-opus-4-5   2.1M tokens
