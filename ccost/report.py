@@ -75,7 +75,7 @@ def render_table(result, plan_usd, current_month, stats, elapsed):
 
     if result.unpriced:
         lines.append("")
-        lines.append("Unpriced - no published rate, dollars unknown and excluded:")
+        lines.append("Unpriced - rate missing from ccost, dollars unknown and excluded:")
         for model in sorted(result.unpriced):
             tally = result.unpriced[model]
             lines.append("  %-28s %10s tokens  (%d rows)"

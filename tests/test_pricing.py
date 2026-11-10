@@ -68,6 +68,47 @@ class TestRates(unittest.TestCase):
         )
 
 
+class TestClaude55(unittest.TestCase):
+    D = date(2026, 11, 10)
+
+    def test_costs_include_all_cache_tiers(self):
+        for model, speed, expected in [
+            ("claude-opus-5-5", "standard", "37.2"),
+            ("claude-opus-5-5", "fast", "74.4"),
+            ("claude-sonnet-5-5", "standard", "18.6"),
+            ("claude-haiku-5-5", "standard", "4.675"),
+        ]:
+            with self.subTest(model=model, speed=speed):
+                self.assertEqual(
+                    pricing.cost(model, speed, self.D,
+                                 1000000, 1000000, 1000000, 1000000, 1000000),
+                    Decimal(expected),
+                )
+
+    def test_haiku_prompt_boundary_includes_each_input_category(self):
+        for category in range(4):
+            for count, rate in [(99999, "0.1"), (100000, "0.1"),
+                                (100001, "0.5")]:
+                tokens = [0, 0, 0, 0]
+                tokens[category] = count
+                multiplier = ["1", "0.1", "1.25", "2"][category]
+                expected = (Decimal(count) * Decimal(rate) * Decimal(multiplier)
+                            + Decimal(rate) * 5 * 1000000) / 1000000
+                with self.subTest(category=category, count=count):
+                    self.assertEqual(
+                        pricing.cost("claude-haiku-5-5", "standard", self.D,
+                                     tokens[0], 1000000, *tokens[1:]),
+                        expected,
+                    )
+
+    def test_haiku_threshold_sums_all_prompt_categories(self):
+        self.assertEqual(
+            pricing.cost("claude-haiku-5-5", "standard", self.D,
+                         25001, 1000000, 25000, 25000, 25000),
+            Decimal("2.5543755"),
+        )
+
+
 class TestAliases(unittest.TestCase):
     def test_bare_aliases_resolve_to_current_tier(self):
         self.assertEqual(pricing.canonical("opus"), "claude-opus-5")

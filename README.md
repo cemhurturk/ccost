@@ -78,10 +78,14 @@ share of real spend.
 
 ## Accuracy notes
 
-- Rates are captured 2026-07-25 and edited by hand in `ccost/pricing.py`.
-  Prompt-cache reads bill at 0.1× the model's input rate; cache writes at 1.25×
+- Legacy rates were captured 2026-07-25; Claude Opus, Sonnet, and Haiku 5.5
+  rates were verified 2026-11-10 against the [Anthropic pricing reference](https://platform.claude.com/docs/en/about-claude/pricing).
+  Rates are edited by hand in `ccost/pricing.py`.
+  Prompt-cache reads bill at 0.1× the model's input rate (0.05× for Opus and Sonnet 5.5); cache writes at 1.25×
   (5-minute TTL) or 2× (1-hour), priced from the separate fields the transcript
   records rather than blended.
+- Haiku 5.5 uses higher rates when a request has more than 100,000 prompt
+  tokens, including cache reads and both cache-write tiers.
 - Fast-mode messages (`usage.speed == "fast"`) reprice to the premium tier.
 - A model with no entry in the rate table contributes tokens but not dollars,
   and is listed under the table. Any period containing such usage is marked
